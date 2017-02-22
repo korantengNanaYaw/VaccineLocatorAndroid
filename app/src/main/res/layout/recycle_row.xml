@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:card_view="http://schemas.android.com/apk/res-auto"
+android:id="@+id/cardLayout"
+card_view:cardBackgroundColor="@color/button_text_color"
+android:foreground="?android:attr/selectableItemBackground"
+android:clickable="true"
+card_view:cardCornerRadius="2dp"
+android:layout_width="match_parent"
+android:layout_height="80dp"
+android:padding="4dp"
+android:layout_margin="2dp">
+
+
+    <RelativeLayout
+    android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:textColor="@android:color/background_dark"
+
+            android:text="Facility Names"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/txtFacilityName"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/txtRegion"
+            android:layout_toEndOf="@+id/txtRegion"
+            android:textStyle="normal|bold"
+            android:layout_above="@+id/txtMiles"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:textColor="@android:color/background_dark"
+            android:text="Region"
+            android:layout_width="116dp"
+            android:id="@+id/txtRegion"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:textColor="@android:color/background_dark"
+
+            android:text="Sub-district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtsubDistrict"
+            android:textSize="10sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/txtFacilityName"
+            android:layout_toStartOf="@+id/txtFacilityName"
+            android:layout_below="@+id/txtFacilityName" />
+
+        <TextView
+            android:text="30 miles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtMiles"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:textColor="@android:color/background_dark"
+
+            android:text="District"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDistrict"
+            android:textSize="12sp"
+            android:layout_alignBottom="@+id/txtFacilityName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/txtFacilityName"
+            android:layout_toStartOf="@+id/txtFacilityName"
+            android:layout_below="@+id/txtRegion" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFacilityName"
+            android:layout_toLeftOf="@+id/txtMiles"
+            android:layout_toStartOf="@+id/txtMiles"
+            android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            android:id="@+id/txthiddenId" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
