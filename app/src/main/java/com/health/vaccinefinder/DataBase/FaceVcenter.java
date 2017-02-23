@@ -1,104 +1,82 @@
 package com.health.vaccinefinder.DataBase;
 
-import android.widget.ListView;
-
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.jar.Pack200;
 
 /**
- * Created by smsgh on 20/02/2017.
+ * Created by smsgh on 23/02/2017.
  */
 
+public class FaceVcenter {
 
 
-@Table(name="Vcenters")
-public class Vcenters  extends Model {
 
-    @Column(name = "region")
+    private String Id;
     private String region;
 
-    @Column(name = "district")
+
     private String district;
 
 
-    @Column(name = "subdistrict")
+
     private String subdistrict;
 
-    @Column(name = "facility")
+
     private String facility;
 
-    @Column(name = "longitude")
+
     private String longitude;
 
-    @Column(name = "latitude")
+
     private String latitude;
 
-    @Column(name = "bcg")
     private String bcg;
 
-    @Column(name = "opv")
+
     private String opv;
 
-    @Column(name = "penta")
+
     private String penta;
 
-    @Column(name = "pneumo")
+
     private String pneumo;
 
-    @Column(name = "rota")
+
     private String rota;
 
-    @Column(name = "measles_rubella")
+
     private String measles_rubella;
 
 
-    @Column(name = "yellow_fever")
+
     private String yellow_fever;
 
 
-    @Column(name = "meningitis_a")
+
     private String meningitis_a;
 
 
 
-    @Column(name = "vitamin_a_dose")
+
     private String vitamin_a_dose;
 
 
 
-    @Column(name = "nutrition_services")
+
     private String nutrition_services;
 
 
-    @Column(name = "phone")
+
     private String phone;
 
 
 
-    @Column(name = "email")
+
     private String email;
 
 
-    /*
-    * 	'bcg',
-		'opv',
-		'penta',
-		'pneumo',
-		'rota',
-		'measles_rubella',
-		'yellow_fever',
-		'meningitis_a',
-		'vitamin_a_dose',
-		'nutrition_services',
-		'phone',
-		'email'
-    *
-    * */
+    private int kilometers;
+
 
     public String getRegion() {
         return region;
@@ -244,48 +222,21 @@ public class Vcenters  extends Model {
         this.email = email;
     }
 
-    public static List<Vcenters> getListOfBeneficiary(){
-
-
-
-        return new Select().from(Vcenters.class).execute();
-
-
+    public int getKilometers() {
+        return kilometers;
     }
 
-    public static Vcenters getFacility(int id){
-
-
-
-        return Vcenters.load(Vcenters.class,id);
-
-
+    public void setKilometers(int kilometers) {
+        this.kilometers = kilometers;
     }
 
-    public static List<Vcenters> getFacilitiesByRegion(String region){
-
-
-
-        return new Select().from(Vcenters.class).where("region = ?",region).execute();
-
-
-    }
-    public static List<String> getFacilitiesByRegion(){
-
-
-        List<Vcenters> categoryList = new Select().distinct().from(Vcenters.class).groupBy("region").execute();
-
-        List<String> regions = new ArrayList<>();
-
-        for (Vcenters c : categoryList){
-
-            regions.add(c.getRegion());
-        }
-
-
-        return regions;
-
+    public String getId() {
+        return Id;
     }
 
-
+    public void setId(String id) {
+        Id = id;
+    }
 }
+
+

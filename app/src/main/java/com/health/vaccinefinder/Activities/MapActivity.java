@@ -145,17 +145,18 @@ public class MapActivity extends AppCompatActivity {
 
 
         for(Vcenters it : Vcenters.getListOfBeneficiary()){
-            customMarkerOne = new CustomMarker(it.getFacility(),Double.parseDouble(it.getLongitude()),  Double.parseDouble(it.getLatitude()));
+
+            String description = it.getDistrict() + ":" + it.getFacility() ;
+            customMarkerOne = new CustomMarker(it.getFacility(),Double.parseDouble(it.getLongitude()),  Double.parseDouble(it.getLatitude()),description);
 
             addMarker(customMarkerOne);
         }
 
     }
 
-    void setCustomMarkerTwoPosition() {
-        customMarkerTwo = new CustomMarker("markerTwo", 43.7297251, -74.0675716);
-        addMarker(customMarkerTwo);
-    }
+
+
+
 
     public void startAnimation(View v) {
         animateMarker(customMarkerOne, new LatLng(40.0675716, 40.7297251));
@@ -226,8 +227,7 @@ public class MapActivity extends AppCompatActivity {
     // this is method to help us add a Marker to the map
     public void addMarker(CustomMarker customMarker) {
         MarkerOptions markerOption = new MarkerOptions().position(
-                new LatLng(customMarker.getCustomMarkerLatitude(), customMarker.getCustomMarkerLongitude())).icon(
-                BitmapDescriptorFactory.defaultMarker());
+                new LatLng(customMarker.getCustomMarkerLongitude(),customMarker.getCustomMarkerLatitude())).icon(BitmapDescriptorFactory.defaultMarker()).title(customMarker.getDescription()).snippet("");
 
         Marker newMark = googleMap.addMarker(markerOption);
         addMarkerToHashMap(customMarker, newMark);

@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.health.vaccinefinder.DataBase.FaceVcenter;
@@ -20,18 +18,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by smsgh on 20/02/2017.
+ * Created by smsgh on 23/02/2017.
  */
 
-public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
+public class RowAdapterForFake extends RecyclerView.Adapter<RowAdapterFakeViewHolder>{
     private Context context;
     private LayoutInflater inflater;
-    List<Vcenters> data= Collections.emptyList();
+    List<FaceVcenter> data= Collections.emptyList();
     View view=null;
     GPSTracker gpsTracker;
     Helper helper;
 
-    public RowAdapter(Context context, List<Vcenters> data,GPSTracker gpsTracker) {
+    public RowAdapterForFake(Context context, List<FaceVcenter> data, GPSTracker gpsTracker) {
         inflater= LayoutInflater.from(context);
         this.data=data;
         this.context=context;
@@ -42,20 +40,20 @@ public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
     }
 
     @Override
-    public RowAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RowAdapterFakeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = inflater.inflate(R.layout.recycle_row, parent, false);
         // } else if(Application.BillersRecycleViewLayoutType.equalsIgnoreCase("List")){
         // view= inflater.inflate(R.layout.list_item_layout_billers,parent,false);}
 
-        RowAdapterViewHolder holder = new RowAdapterViewHolder(view);
+        RowAdapterFakeViewHolder holder = new RowAdapterFakeViewHolder(view);
 
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(RowAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(RowAdapterFakeViewHolder holder, int position) {
 
-        final Vcenters items=data.get(position);
+        final FaceVcenter items=data.get(position);
 
         holder.txthiddenId.setText(items.getId()+"");
         holder.region.setText(items.getRegion());
@@ -67,7 +65,7 @@ public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
         int kilometers = helper.calculateDistanceInKilometer(gpsTracker.getLatitude(),gpsTracker.getLongitude(),Double.parseDouble(items.getLatitude()),Double.parseDouble(items.getLongitude()));
         holder.miles.setText(kilometers + " km");
 
-      Log.d("LatLong","current latitude " + gpsTracker.getLongitude() + " , " +gpsTracker.getLatitude() + " destination longitude " + items.getLongitude() + " , " + items.getLatitude() + "Kilometers" +kilometers);
+        Log.d("LatLong","current latitude " + gpsTracker.getLongitude() + " , " +gpsTracker.getLatitude() + " destination longitude " + items.getLongitude() + " , " + items.getLatitude() + "Kilometers" +kilometers);
     }
 
     @Override
@@ -75,10 +73,10 @@ public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
         return data.size();
     }
 }
-class RowAdapterViewHolder extends RecyclerView.ViewHolder {
+class RowAdapterFakeViewHolder extends RecyclerView.ViewHolder {
     TextView region,district,subdistrict,facilityname,miles,txthiddenId,txtCordinates;
 
-    public RowAdapterViewHolder(View itemView) {
+    public RowAdapterFakeViewHolder(View itemView) {
         super(itemView);
 
         txthiddenId=(TextView)itemView.findViewById(R.id.txthiddenId);

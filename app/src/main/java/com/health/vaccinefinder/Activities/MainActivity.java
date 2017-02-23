@@ -37,13 +37,17 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.health.vaccinefinder.Adapters.RowAdapter;
+import com.health.vaccinefinder.Adapters.RowAdapterForFake;
 import com.health.vaccinefinder.Application.Application;
+import com.health.vaccinefinder.DataBase.FaceVcenter;
+import com.health.vaccinefinder.DataBase.KilometerSorter;
 import com.health.vaccinefinder.DataBase.Vcenters;
 import com.health.vaccinefinder.DialogFragment.FacilityDetailFragment;
 import com.health.vaccinefinder.R;
 import com.health.vaccinefinder.Utilities.Dialogs;
 import com.health.vaccinefinder.Utilities.FallbackLocationTracker;
 import com.health.vaccinefinder.Utilities.GPSTracker;
+import com.health.vaccinefinder.Utilities.Helper;
 import com.health.vaccinefinder.Utilities.ProviderLocationTracker;
 import com.health.vaccinefinder.Volley.APIrequest;
 import com.health.vaccinefinder.Volley.VolleySingleton;
@@ -53,9 +57,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class MainActivity extends AppCompatActivity implements FacilityDetailFragment.OnFragmentInteractionListener{
 
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
         dialogs=new Dialogs(this);
         setUpGps();
         setFloatAction();
-        setToolBar("Nearest Vaccine Centers");
+        setToolBar("Vaccine Centers");
 
 
       Log.d("fallbackLatlong", gpsTracker.getLatitude() + "" + gpsTracker.getLongitude()) ;
@@ -98,9 +105,9 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
         }
 
-        setRecycleView();
-
-        Log.d("faciliteis Size",Vcenters.getListOfBeneficiary().size()+"");
+       // setRecycleView();
+        setRecycleView(getFakeFacilitiesNearest());
+        Log.d("faciliteis Size", Vcenters.getListOfBeneficiary().size()+"");
 
 
     }
@@ -147,6 +154,50 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
         * */
 
     }
+    public void setRecycleView(List<FaceVcenter> vcenterList){
+
+        homeMenusRecycler=(RecyclerView)findViewById(R.id.vacineList);
+        RecyclerView.LayoutManager mlayout=new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false);
+
+        RowAdapterForFake billersAdapter=new RowAdapterForFake(Application.getAppContext(), vcenterList,gpsTracker);
+        homeMenusRecycler.setAdapter(billersAdapter);
+        homeMenusRecycler.setLayoutManager(mlayout);
+
+        homeMenusRecycler.addOnItemTouchListener(new RecyclerTouchListener(MainActivity.this, homeMenusRecycler, new ClickListner() {
+            @Override
+            public void onClick(View view, int position) {
+
+
+                TextView facilityIDView =(TextView)view.findViewById(R.id.txthiddenId);
+                String facilityID = facilityIDView.getText().toString();
+
+                TextView distanceTxtView =(TextView)view.findViewById(R.id.txtMiles);
+                String distanceTxt = distanceTxtView.getText().toString();
+
+                Log.d("facilityID",facilityID);
+                Intent intent = new Intent(MainActivity.this,FacilityDetails.class);
+                intent.putExtra("facility_ID", facilityID);
+                intent.putExtra("distanceTxt", distanceTxt);
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
+        /*
+        *  BeneficiaryDialog generic=BeneficiaryDialog.newInstance("","");
+                generic.setCancelable(false);
+                ShowDialog(generic,"");
+        *
+        * */
+
+    }
+
     public void setRecycleView(String region){
 
         homeMenusRecycler=(RecyclerView)findViewById(R.id.vacineList);
@@ -220,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
             loadInit();
 
-            Toast.makeText(MainActivity.this,gpsTracker.getLatitude() + "," + gpsTracker.getLongitude(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this,gpsTracker.getLatitude() + "," + gpsTracker.getLongitude(),Toast.LENGTH_LONG).show();
             Log.d("fMainactivityLatlong", gpsTracker.getLatitude() + "," + gpsTracker.getLongitude()) ;
 
         }
@@ -283,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
                         //Toast.makeText(Login.this,res)
 
-                        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        /*new SweetAlertDialog(MainActivity.this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
                                 .setCustomImage(R.mipmap.ic_launcher)
 
                                 .setTitleText("Hello there !!")
@@ -297,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
                                     }
                                 })
-                                .show();
+                                .show();*/
 
 
                         //  dialogs.SimpleWarningAlertDialog(response, "Success Message").show();
@@ -439,8 +490,8 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
                 String[] replacedString = result.split(",");
 
 
-                vcenter.setLatitude(replacedString[0]);
-                vcenter.setLongitude(replacedString[1]);
+                vcenter.setLatitude(replacedString[1]); //replacedString[1]
+                vcenter.setLongitude(replacedString[0]); //replacedString[0]
 
               //  Log.d("from cordinates","latitude : "+ replacedString[0] + " longitude : " + replacedString[1]);
 
@@ -509,6 +560,9 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
             }
             finally {
                 ActiveAndroid.endTransaction();
+
+                setRecycleView(getFakeFacilitiesNearest());
+              //  setRecycleView();
             }
 
 
@@ -521,7 +575,109 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
     }
 
+    public  List<FaceVcenter> getFakeFacilitiesNearest(){
 
+        List<FaceVcenter> faceVcenterlist = new ArrayList<>();
+        Helper helper=new Helper();
+        FaceVcenter vcenter = new FaceVcenter();
+        for (Vcenters center : Vcenters.getListOfBeneficiary()){
+            vcenter = new FaceVcenter();
+
+            //  int id= obj.getInt("id");
+
+            vcenter.setId(""+center.getId());
+
+            vcenter.setRegion(center.getRegion());
+
+
+            vcenter.setDistrict(center.getDistrict());
+
+
+
+            vcenter.setSubdistrict(center.getSubdistrict());
+
+
+
+            vcenter.setFacility(center.getFacility());
+
+
+
+            vcenter.setLatitude(center.getLatitude()); //replacedString[1]
+            vcenter.setLongitude(center.getLongitude()); //replacedString[0]
+
+            //  Log.d("from cordinates","latitude : "+ replacedString[0] + " longitude : " + replacedString[1]);
+
+
+            vcenter.setBcg(center.getBcg());
+
+
+            vcenter.setOpv(center.getOpv());
+
+
+            vcenter.setPenta(center.getPenta());
+
+
+            vcenter.setPneumo(center.getPneumo());
+
+
+            vcenter.setRota(center.getRota());
+
+
+
+            vcenter.setMeasles_rubella(center.getMeasles_rubella());
+
+
+            vcenter.setYellow_fever(center.getYellow_fever());
+
+
+            vcenter.setMeningitis_a(center.getMeningitis_a());
+
+
+            vcenter.setVitamin_a_dose(center.getVitamin_a_dose());
+
+
+            vcenter.setNutrition_services(center.getNutrition_services());
+
+
+
+            vcenter.setPhone(center.getPhone());
+
+
+
+            vcenter.setEmail(center.getEmail());
+
+
+            int kilometers = helper.calculateDistanceInKilometer(gpsTracker.getLatitude(),gpsTracker.getLongitude(),Double.parseDouble(center.getLatitude()),Double.parseDouble(center.getLongitude()));
+
+
+
+            vcenter.setKilometers(kilometers);
+
+
+            faceVcenterlist.add(vcenter);
+
+
+        }
+
+
+        List<FaceVcenter> fakestVcenterlist = new ArrayList<>();
+
+        for (FaceVcenter faceVcenter :faceVcenterlist){
+
+
+            if (faceVcenter.getKilometers() < 10 ){
+
+                fakestVcenterlist.add(faceVcenter);
+
+            }
+
+        }
+        Collections.sort(fakestVcenterlist,new KilometerSorter());
+
+
+        return fakestVcenterlist;
+
+    }
     private void ShowDialog(DialogFragment fragment, String tag){
 
         FragmentManager fm = this.getFragmentManager();
@@ -538,6 +694,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_item);
 
+        arrayAdapter.add("Nearest");
         for (String region :Vcenters.getFacilitiesByRegion()){
 
             arrayAdapter.add(region);
@@ -557,7 +714,26 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String strName = arrayAdapter.getItem(which);
-                setRecycleView(strName);
+
+                if (strName.equals("Nearest")){
+
+              /*      Collections.sort(getFakeFacilitiesNearest(), new Comparator<FaceVcenter>() {
+                        public int compare(FaceVcenter a, FaceVcenter b) {
+                            if (a.getKilometers() == b.getKilometers())
+                                return a.getName().compareTo(b.getName());
+                            return a.getPrice() > b.getPrice() ? 1 : a.getPrice() < b.getPrice() ? -1 : 0;
+                        }
+                    });*/
+
+                    setRecycleView(getFakeFacilitiesNearest());
+
+
+
+
+
+                }else {
+                    setRecycleView(strName);
+                }
             }
         });
         builderSingle.show();

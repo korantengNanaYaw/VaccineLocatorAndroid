@@ -7,20 +7,23 @@ package com.health.vaccinefinder.Utilities;
 public class CustomMarker {
 
     private String id;
+    private  String Description;
     private Double latitude;
     private Double longitude;
 
-    public CustomMarker(String id, Double latitude, Double longitude) {
+    public CustomMarker(String id, Double latitude, Double longitude,String Description) {
 
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.Description = Description;
     }
 
     public CustomMarker() {
         this.id = "";
         this.latitude = 0.0;
         this.longitude = 0.0;
+        Description= "";
     }
 
     public String getCustomMarkerId() {
@@ -45,5 +48,13 @@ public class CustomMarker {
 
     public void setCustomMarkerLongitude(Double mLongitude) {
         this.longitude = mLongitude;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 }
