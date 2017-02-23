@@ -28,12 +28,14 @@ public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
     List<Vcenters> data= Collections.emptyList();
     View view=null;
     GPSTracker gpsTracker;
+    Helper helper;
 
     public RowAdapter(Context context, List<Vcenters> data,GPSTracker gpsTracker) {
         inflater= LayoutInflater.from(context);
         this.data=data;
         this.context=context;
         this.gpsTracker=gpsTracker;
+        helper= new Helper();
 
 
     }
@@ -59,7 +61,12 @@ public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
         holder.district.setText(items.getDistrict());
         holder.subdistrict.setText(items.getSubdistrict());
         holder.facilityname.setText(items.getFacility());
-        holder.miles.setText(Helper.getMetersToMiles(gpsTracker.getDistanceT0(Double.parseDouble(items.getLatitude()) ,Double.parseDouble(items.getLongitude())) ) + " miles");
+        holder.txtCordinates.setText(items.getLatitude() + "," + items.getLongitude());
+
+        int kilometers = helper.calculateDistanceInKilometer(gpsTracker.getLatitude(),gpsTracker.getLongitude(),Double.parseDouble(items.getLatitude()),Double.parseDouble(items.getLongitude()));
+        holder.miles.setText(kilometers + " km");
+
+      Log.d("LatLong","current latitude " + gpsTracker.getLongitude() + " , " +gpsTracker.getLatitude() + " destination longitude " + items.getLongitude() + " , " + items.getLatitude() + "Kilometers" +kilometers);
     }
 
     @Override
@@ -68,7 +75,7 @@ public class RowAdapter extends RecyclerView.Adapter<RowAdapterViewHolder>{
     }
 }
 class RowAdapterViewHolder extends RecyclerView.ViewHolder {
-    TextView region,district,subdistrict,facilityname,miles,txthiddenId;
+    TextView region,district,subdistrict,facilityname,miles,txthiddenId,txtCordinates;
 
     public RowAdapterViewHolder(View itemView) {
         super(itemView);
@@ -79,6 +86,7 @@ class RowAdapterViewHolder extends RecyclerView.ViewHolder {
         subdistrict=(TextView)itemView.findViewById(R.id.txtsubDistrict);
         facilityname=(TextView)itemView.findViewById(R.id.txtFacilityName);
         miles=(TextView)itemView.findViewById(R.id.txtMiles);
+        txtCordinates=(TextView)itemView.findViewById(R.id.txtcordinates);
 
 
 

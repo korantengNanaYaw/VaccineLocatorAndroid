@@ -149,6 +149,9 @@ public class GPSTracker extends Service implements LocationListener {
         return longitude;
     }
 
+
+
+
     /**
      * Function to check GPS/Wi-Fi enabled
      * @return boolean
@@ -192,12 +195,12 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.show();
     }
 
-    public  double getDistanceT0(Double latB,Double lngB){
+    public  double getDistanceT0( Double latA,Double lngA ,Double latB,Double lngB){
 
         Location locationA = new Location("point A");
 
-        locationA.setLatitude(latitude);
-        locationA.setLongitude(longitude);
+        locationA.setLatitude(latA);
+        locationA.setLongitude(lngA);
 
         Location locationB = new Location("point B");
 

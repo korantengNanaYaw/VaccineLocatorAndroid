@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.android.volley.AuthFailureError;
@@ -41,7 +42,9 @@ import com.health.vaccinefinder.DataBase.Vcenters;
 import com.health.vaccinefinder.DialogFragment.FacilityDetailFragment;
 import com.health.vaccinefinder.R;
 import com.health.vaccinefinder.Utilities.Dialogs;
+import com.health.vaccinefinder.Utilities.FallbackLocationTracker;
 import com.health.vaccinefinder.Utilities.GPSTracker;
+import com.health.vaccinefinder.Utilities.ProviderLocationTracker;
 import com.health.vaccinefinder.Volley.APIrequest;
 import com.health.vaccinefinder.Volley.VolleySingleton;
 
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
     private VolleySingleton volleySingleton;
     private RequestQueue requestQueue;
     Dialogs dialogs;
+    FallbackLocationTracker fallbackLocationTracker;
 
     Toolbar toolbar;
     TextView toolbarTitle,providerLabel;
@@ -76,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
         setFloatAction();
         setToolBar("Nearest Vaccine Centers");
 
+
+      Log.d("fallbackLatlong", gpsTracker.getLatitude() + "" + gpsTracker.getLongitude()) ;
 
     }
 
@@ -204,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
         gpsTracker = new GPSTracker(MainActivity.this);
 
+
+
         if(gpsTracker.canGetLocation() == false){
 
             gpsTracker.showSettingsAlert();
@@ -211,6 +219,9 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
         }else{
 
             loadInit();
+
+            Toast.makeText(MainActivity.this,gpsTracker.getLatitude() + "," + gpsTracker.getLongitude(),Toast.LENGTH_LONG).show();
+            Log.d("fMainactivityLatlong", gpsTracker.getLatitude() + "," + gpsTracker.getLongitude()) ;
 
         }
 

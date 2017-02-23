@@ -7,6 +7,6 @@ package com.health.vaccinefinder.Volley;
 public class APIrequest {
 
 
-    public static String Base_Url = "http://10.0.2.2:8000/";
+    public static String Base_Url = "https://vacinelocator.herokuapp.com/";
     public static String  getAllFacilities = Base_Url+ "getAllFacilities"  ;
 }
