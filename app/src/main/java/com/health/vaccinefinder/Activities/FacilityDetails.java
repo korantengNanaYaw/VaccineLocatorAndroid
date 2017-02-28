@@ -1,13 +1,17 @@
 package com.health.vaccinefinder.Activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.health.vaccinefinder.DataBase.Vcenters;
 import com.health.vaccinefinder.R;
@@ -21,6 +25,7 @@ public class FacilityDetails extends AppCompatActivity {
     ListView listView;
     Toolbar toolbar;
     TextView toolbarTitle,providerLabel;
+    Vcenters vcenters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +61,7 @@ public class FacilityDetails extends AppCompatActivity {
             String distanceMiles = extras.getString("distanceTxt");
 
             Log.d("facilityID",facility_ID);
-            Vcenters vcenters = Vcenters.load(Vcenters.class,Integer.parseInt(facility_ID));
+             vcenters = Vcenters.load(Vcenters.class,Integer.parseInt(facility_ID));
             Log.d("facilityID",vcenters.getFacility());
 
             TextView txtFacilityName = (TextView) findViewById(R.id.tctFacilityName);
@@ -117,6 +122,33 @@ public class FacilityDetails extends AppCompatActivity {
 
         }
 
+
+        Button butReservation = (Button)findViewById(R.id.butReservation);
+        butReservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FacilityDetails.this,ScheduleAppointment.class);
+                startActivity(intent);
+            }
+        });
+
+        Button getdirection =  (Button)findViewById(R.id.butDirection);
+        getdirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Uri gmmIntentUri = Uri.parse("geo:"+vcenters.getLatitude()+","+vcenters.getLongitude());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }else {
+
+                    Toast.makeText(FacilityDetails.this,"You dont have Working",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
       //  (TextView)findViewById(R.id.txtFacilityName).setText
 
 

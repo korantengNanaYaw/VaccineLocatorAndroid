@@ -151,11 +151,12 @@ gpsTracker = new GPSTracker(MapActivity.this);
     void setCustomMarkerOnePosition() {
        // customMarkerOne = new CustomMarker("markerOne", 40.7102747, -73.9945297);
 
-
+        Helper helper = new Helper();
         for(FaceVcenter it : getFakeFacilitiesNearest()){
 
             String description = it.getDistrict() + ":" + it.getFacility() ;
-            customMarkerOne = new CustomMarker(it.getFacility(),Double.parseDouble(it.getLongitude()),  Double.parseDouble(it.getLatitude()),description);
+            int kilometers = helper.calculateDistanceInKilometer(gpsTracker.getLatitude(),gpsTracker.getLongitude(),Double.parseDouble(it.getLatitude()),Double.parseDouble(it.getLongitude()));
+            customMarkerOne = new CustomMarker(it.getFacility(),Double.parseDouble(it.getLongitude()),  Double.parseDouble(it.getLatitude()),kilometers + " km Away");
 
             addMarker(customMarkerOne);
         }
@@ -348,7 +349,7 @@ gpsTracker = new GPSTracker(MapActivity.this);
     // this is method to help us add a Marker to the map
     public void addMarker(CustomMarker customMarker) {
         MarkerOptions markerOption = new MarkerOptions().position(
-                new LatLng(customMarker.getCustomMarkerLongitude(),customMarker.getCustomMarkerLatitude())).icon(BitmapDescriptorFactory.defaultMarker()).title(customMarker.getDescription()).snippet("30 miles from here");
+                new LatLng(customMarker.getCustomMarkerLongitude(),customMarker.getCustomMarkerLatitude())).icon(BitmapDescriptorFactory.defaultMarker()).title(customMarker.getDescription()).snippet(customMarker.getDescription());
 
         Marker newMark = googleMap.addMarker(markerOption);
         addMarkerToHashMap(customMarker, newMark);

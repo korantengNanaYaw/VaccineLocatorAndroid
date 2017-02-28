@@ -4,7 +4,9 @@
     package="com.health.vaccinefinder">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -57,11 +59,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />
         </activity>
-        <service android:name=".Utilities.GPSTracker"
-            android:enabled="true">
 
-        </service>
-
+        <service
+            android:name=".Utilities.GPSTracker"
+            android:enabled="true"></service>
     </application>
 
 </manifest>
