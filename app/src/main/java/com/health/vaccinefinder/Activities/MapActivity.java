@@ -21,14 +21,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.health.vaccinefinder.DataBase.FaceVcenter;
+import com.health.vaccinefinder.DataBase.KilometerSorter;
 import com.health.vaccinefinder.DataBase.Vcenters;
 import com.health.vaccinefinder.R;
 import com.health.vaccinefinder.Utilities.CustomMarker;
+import com.health.vaccinefinder.Utilities.GPSTracker;
+import com.health.vaccinefinder.Utilities.Helper;
 import com.health.vaccinefinder.Utilities.LatLngInterpolator;
 import com.health.vaccinefinder.Utilities.MarkerAnimation;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class MapActivity extends AppCompatActivity {
@@ -36,6 +43,7 @@ public class MapActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView toolbarTitle,providerLabel;
 
+    GPSTracker gpsTracker;
     // Google Map
     private GoogleMap googleMap;
     private HashMap<CustomMarker, Marker> markersHashMap;
@@ -48,7 +56,7 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-
+gpsTracker = new GPSTracker(MapActivity.this);
         setToolBar("Map View");
         try {
             // Loading map
@@ -144,7 +152,7 @@ public class MapActivity extends AppCompatActivity {
        // customMarkerOne = new CustomMarker("markerOne", 40.7102747, -73.9945297);
 
 
-        for(Vcenters it : Vcenters.getListOfBeneficiary()){
+        for(FaceVcenter it : getFakeFacilitiesNearest()){
 
             String description = it.getDistrict() + ":" + it.getFacility() ;
             customMarkerOne = new CustomMarker(it.getFacility(),Double.parseDouble(it.getLongitude()),  Double.parseDouble(it.getLatitude()),description);
@@ -154,7 +162,109 @@ public class MapActivity extends AppCompatActivity {
 
     }
 
+    public List<FaceVcenter> getFakeFacilitiesNearest(){
 
+        List<FaceVcenter> faceVcenterlist = new ArrayList<>();
+        Helper helper=new Helper();
+        FaceVcenter vcenter = new FaceVcenter();
+        for (Vcenters center : Vcenters.getListOfBeneficiary()){
+            vcenter = new FaceVcenter();
+
+            //  int id= obj.getInt("id");
+
+            vcenter.setId(""+center.getId());
+
+            vcenter.setRegion(center.getRegion());
+
+
+            vcenter.setDistrict(center.getDistrict());
+
+
+
+            vcenter.setSubdistrict(center.getSubdistrict());
+
+
+
+            vcenter.setFacility(center.getFacility());
+
+
+
+            vcenter.setLatitude(center.getLatitude()); //replacedString[1]
+            vcenter.setLongitude(center.getLongitude()); //replacedString[0]
+
+            //  Log.d("from cordinates","latitude : "+ replacedString[0] + " longitude : " + replacedString[1]);
+
+
+            vcenter.setBcg(center.getBcg());
+
+
+            vcenter.setOpv(center.getOpv());
+
+
+            vcenter.setPenta(center.getPenta());
+
+
+            vcenter.setPneumo(center.getPneumo());
+
+
+            vcenter.setRota(center.getRota());
+
+
+
+            vcenter.setMeasles_rubella(center.getMeasles_rubella());
+
+
+            vcenter.setYellow_fever(center.getYellow_fever());
+
+
+            vcenter.setMeningitis_a(center.getMeningitis_a());
+
+
+            vcenter.setVitamin_a_dose(center.getVitamin_a_dose());
+
+
+            vcenter.setNutrition_services(center.getNutrition_services());
+
+
+
+            vcenter.setPhone(center.getPhone());
+
+
+
+            vcenter.setEmail(center.getEmail());
+
+
+            int kilometers = helper.calculateDistanceInKilometer(gpsTracker.getLatitude(),gpsTracker.getLongitude(),Double.parseDouble(center.getLatitude()),Double.parseDouble(center.getLongitude()));
+
+
+
+            vcenter.setKilometers(kilometers);
+
+
+            faceVcenterlist.add(vcenter);
+
+
+        }
+
+
+        List<FaceVcenter> fakestVcenterlist = new ArrayList<>();
+
+        for (FaceVcenter faceVcenter :faceVcenterlist){
+
+
+            if (faceVcenter.getKilometers() < 10 ){
+
+                fakestVcenterlist.add(faceVcenter);
+
+            }
+
+        }
+        Collections.sort(fakestVcenterlist,new KilometerSorter());
+
+
+        return fakestVcenterlist;
+
+    }
 
 
 
@@ -193,6 +303,17 @@ public class MapActivity extends AppCompatActivity {
     public void initializeMapViewSettings() {
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(false);
+
+        LatLng nicaragua = new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+
+
+        CameraUpdate center=
+                CameraUpdateFactory.newLatLng(nicaragua);
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+
+        googleMap.moveCamera(center);
+        googleMap.animateCamera(zoom);
+
     }
 
     // this is method to help us set up a Marker that stores the Markers we want
@@ -227,7 +348,7 @@ public class MapActivity extends AppCompatActivity {
     // this is method to help us add a Marker to the map
     public void addMarker(CustomMarker customMarker) {
         MarkerOptions markerOption = new MarkerOptions().position(
-                new LatLng(customMarker.getCustomMarkerLongitude(),customMarker.getCustomMarkerLatitude())).icon(BitmapDescriptorFactory.defaultMarker()).title(customMarker.getDescription()).snippet("");
+                new LatLng(customMarker.getCustomMarkerLongitude(),customMarker.getCustomMarkerLatitude())).icon(BitmapDescriptorFactory.defaultMarker()).title(customMarker.getDescription()).snippet("30 miles from here");
 
         Marker newMark = googleMap.addMarker(markerOption);
         addMarkerToHashMap(customMarker, newMark);
@@ -258,8 +379,10 @@ public class MapActivity extends AppCompatActivity {
         LatLngBounds bounds = b.build();
 
         // Change the padding as per needed
-        cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cu);
+       // cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        //googleMap.animateCamera(cu);
+
+
     }
 
     // this is method to help us move a Marker.
