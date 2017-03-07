@@ -310,7 +310,7 @@ gpsTracker = new GPSTracker(MapActivity.this);
 
         CameraUpdate center=
                 CameraUpdateFactory.newLatLng(nicaragua);
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(14);
 
         googleMap.moveCamera(center);
         googleMap.animateCamera(zoom);

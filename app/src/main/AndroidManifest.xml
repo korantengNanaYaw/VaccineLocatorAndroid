@@ -39,11 +39,15 @@
             android:value="AIzaSyCHEs3Mv0StwbBkhofBgSWC_scDC3_1mYg" />
 
         <activity android:name=".Activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.ScheduleAppointment"
+            android:parentActivityName=".Activities.FacilityDetails"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.MapActivity"
@@ -60,9 +64,32 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
+
+        <activity
+            android:name=".Activities.Login"
+
+            android:windowSoftInputMode="adjustPan">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".Activities.Register"
+
+            android:windowSoftInputMode="adjustPan">
+
+
+
+        </activity>
+
         <service
             android:name=".Utilities.GPSTracker"
-            android:enabled="true"></service>
+            android:enabled="true" />
     </application>
 
 </manifest>

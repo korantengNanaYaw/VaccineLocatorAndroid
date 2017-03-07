@@ -26,6 +26,7 @@ public class FacilityDetails extends AppCompatActivity {
     Toolbar toolbar;
     TextView toolbarTitle,providerLabel;
     Vcenters vcenters;
+    Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class FacilityDetails extends AppCompatActivity {
     private void initView(){
 
 
-        Bundle extras = getIntent().getExtras();
+         extras = getIntent().getExtras();
         if (extras != null) {
 
 

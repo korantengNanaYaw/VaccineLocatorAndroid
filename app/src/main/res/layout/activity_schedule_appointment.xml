@@ -13,48 +13,44 @@
 
 
     <RelativeLayout
+        android:padding="10px"
+        android:id="@+id/relativelaoyut"
         android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+
+        <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/calendarView"
+             />
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_fullname_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_below="@+id/calendarView"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-
             android:layout_marginRight="4dp">
             <EditText android:id="@+id/input_fullname"
                 android:drawablePadding="8dip"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter  Your Full Name"
                 android:inputType="phone" />
         </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_email_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/input_fullname_layout"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
 
-            android:layout_marginRight="4dp">
-            <EditText android:id="@+id/input_email"
-                android:drawablePadding="8dip"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter  Your Email"
-                android:inputType="textEmailAddress" />
-        </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_phone_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/input_email_layout"
+            android:layout_below="@+id/input_fullname_layout"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
 
@@ -67,8 +63,41 @@
                 android:hint="Enter  Your Phone Number"
                 android:inputType="phone" />
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:text="Select Service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_phone_layout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/textView"
+            android:layout_alignRight="@+id/input_phone_layout"
+            android:layout_alignEnd="@+id/input_phone_layout"
+            android:textStyle="normal|bold" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:entries="@array/services"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="11dp" />
     </RelativeLayout>
 
+    <Button
+        android:text="Schedule"
+        android:layout_width="wrap_content"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="6dp"
 
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="60dp" />
 
 </RelativeLayout>
