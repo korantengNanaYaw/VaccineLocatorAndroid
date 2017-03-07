@@ -23,13 +23,6 @@
         android:layout_alignParentEnd="true">
 
 
-        <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/calendarView"
-             />
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_fullname_layout"
             android:layout_width="match_parent"
@@ -47,7 +40,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_phone_layout"
+            android:id="@+id/input_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_fullname_layout"
@@ -68,12 +61,12 @@
             android:text="Select Service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/input_phone_layout"
+            android:layout_below="@+id/input_password_layout"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/textView"
-            android:layout_alignRight="@+id/input_phone_layout"
-            android:layout_alignEnd="@+id/input_phone_layout"
+            android:layout_alignRight="@+id/input_password_layout"
+            android:layout_alignEnd="@+id/input_password_layout"
             android:textStyle="normal|bold" />
 
         <Spinner
@@ -85,6 +78,28 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="11dp" />
+
+        <Button
+            android:text="Pick Date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="35dp"
+            android:id="@+id/button2"
+            android:textAlignment="viewStart" />
+
+        <Button
+            android:text="Pick Time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/button3"
+            android:textAlignment="viewStart" />
+
     </RelativeLayout>
 
     <Button

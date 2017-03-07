@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.health.vaccinefinder.DataBase.Users;
 import com.health.vaccinefinder.DataBase.Vcenters;
 
 /**
@@ -49,6 +50,7 @@ public class Application extends android.app.Application{
 
 
         configurationBuilder.addModelClasses(Vcenters.class);
+        configurationBuilder.addModelClass(Users.class);
 
         ActiveAndroid.initialize(configurationBuilder.create());
     }

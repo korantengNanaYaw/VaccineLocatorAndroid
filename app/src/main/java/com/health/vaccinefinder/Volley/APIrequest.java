@@ -9,4 +9,6 @@ public class APIrequest {
 
     public static String Base_Url = "https://vacinelocator.herokuapp.com/";
     public static String  getAllFacilities = Base_Url+ "getAllFacilities"  ;
+    public static String  registerNewUser = Base_Url+ "registerUser"  ;
+    public static String  loginUser = Base_Url+ "loginUser"  ;
 }

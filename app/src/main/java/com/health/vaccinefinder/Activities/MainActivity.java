@@ -41,6 +41,7 @@ import com.health.vaccinefinder.Adapters.RowAdapterForFake;
 import com.health.vaccinefinder.Application.Application;
 import com.health.vaccinefinder.DataBase.FaceVcenter;
 import com.health.vaccinefinder.DataBase.KilometerSorter;
+import com.health.vaccinefinder.DataBase.Users;
 import com.health.vaccinefinder.DataBase.Vcenters;
 import com.health.vaccinefinder.DialogFragment.FacilityDetailFragment;
 import com.health.vaccinefinder.R;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
     FallbackLocationTracker fallbackLocationTracker;
 
     Toolbar toolbar;
-    TextView toolbarTitle,providerLabel;
+    TextView toolbarTitle,providerLabel,welcome;
     private static String baseURL = "https://webpay.etranzactgh.com/MobileGate/MessageReceiver?";
 
     @Override
@@ -86,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
         setUpGps();
         setFloatAction();
         setToolBar("Vaccine Centers");
+
+
+        welcome=(TextView)findViewById(R.id.welcome);
+        welcome.setText("Welcome : " + Users.load(Users.class,1).getFullname());
 
 
       Log.d("fallbackLatlong", gpsTracker.getLatitude() + "" + gpsTracker.getLongitude()) ;

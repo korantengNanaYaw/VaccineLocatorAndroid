@@ -1,5 +1,6 @@
 package com.health.vaccinefinder.DataBase;
 
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
@@ -9,7 +10,7 @@ import com.activeandroid.annotation.Table;
 
 
 @Table(name="Users")
-public class Users {
+public class Users extends Model{
 
 
     @Column(name = "fullname")
@@ -25,6 +26,16 @@ public class Users {
     @Column(name = "dob")
     private String dob;
 
+    @Column(name = "userid")
+    private int userid;
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
 
     public String getFullname() {
         return fullname;

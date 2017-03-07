@@ -4,13 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.health.vaccinefinder.R;
 
 public class ScheduleAppointment extends AppCompatActivity {
 
-
+    CalendarView calendarView;
     Toolbar toolbar;
     TextView toolbarTitle,providerLabel;
     @Override
@@ -19,6 +20,13 @@ public class ScheduleAppointment extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_appointment);
 
         setToolBar("Schedule Appointment");
+
+        initView();
+    }
+
+    private void initView() {
+
+
     }
 
 
