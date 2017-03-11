@@ -1,6 +1,7 @@
 package com.health.vaccinefinder.Activities;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -19,6 +20,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +60,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -691,6 +694,8 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
 
     }
 
+
+
     private void AlertDialog(){
 
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
@@ -750,6 +755,8 @@ public class MainActivity extends AppCompatActivity implements FacilityDetailFra
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 
 
     static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{

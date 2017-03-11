@@ -11,4 +11,6 @@ public class APIrequest {
     public static String  getAllFacilities = Base_Url+ "getAllFacilities"  ;
     public static String  registerNewUser = Base_Url+ "registerUser"  ;
     public static String  loginUser = Base_Url+ "loginUser"  ;
+
+    public static String  appointments = Base_Url+ "bookAppointment"  ;
 }

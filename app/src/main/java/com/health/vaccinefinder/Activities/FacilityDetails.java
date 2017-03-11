@@ -27,6 +27,8 @@ public class FacilityDetails extends AppCompatActivity {
     TextView toolbarTitle,providerLabel;
     Vcenters vcenters;
     Bundle extras;
+    String facility_ID;
+    String distanceMiles;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +59,9 @@ public class FacilityDetails extends AppCompatActivity {
         if (extras != null) {
 
 
-            String facility_ID = extras.getString("facility_ID");
+             facility_ID = extras.getString("facility_ID");
 
-            String distanceMiles = extras.getString("distanceTxt");
+             distanceMiles = extras.getString("distanceTxt");
 
             Log.d("facilityID",facility_ID);
              vcenters = Vcenters.load(Vcenters.class,Integer.parseInt(facility_ID));
@@ -129,6 +131,7 @@ public class FacilityDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FacilityDetails.this,ScheduleAppointment.class);
+                intent.putExtra("facility_ID", facility_ID);
                 startActivity(intent);
             }
         });
